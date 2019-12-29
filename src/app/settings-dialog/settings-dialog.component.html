@@ -1,7 +1,21 @@
-<h2 mat-dialog-title>ScopeFeed Settings</h2>
+<h2 mat-dialog-title>Settings</h2>
 <mat-dialog-content>
   settings go here
+  <div>
+    <mat-button-toggle-group
+      #tglGroup="matButtonToggleGroup"
+      [value]="data.zoomedIn"
+    >
+      <mat-button-toggle value="true" (click)="clickZoomIn()"
+        >Zoomed In</mat-button-toggle
+      >
+      <mat-button-toggle value="false" (click)="clickFullFrame()"
+        >Full Frame</mat-button-toggle
+      >
+    </mat-button-toggle-group>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close="save">Save</button>
+  <!-- <mat-form-field> -->
+  <!-- </mat-form-field> -->
 </mat-dialog-actions>

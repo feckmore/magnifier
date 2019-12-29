@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-settings-dialog',
@@ -6,10 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./settings-dialog.component.scss']
 })
 export class SettingsDialogComponent implements OnInit {
+  @Output() zoom = new EventEmitter();
 
-  constructor() { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  clickFullFrame() {
+    this.zoom.emit('false');
   }
 
+  clickZoomIn() {
+    this.zoom.emit('true');
+  }
 }

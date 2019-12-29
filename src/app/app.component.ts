@@ -5,7 +5,7 @@ import {
   ElementRef,
   AfterViewInit
 } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { SettingsDialogComponent } from './settings-dialog/settings-dialog.component';
 
 @Component({
@@ -14,6 +14,8 @@ import { SettingsDialogComponent } from './settings-dialog/settings-dialog.compo
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements AfterViewInit {
+  zoomedIn = 'true';
+
   constraints = {
     audio: false,
     video: true
@@ -39,8 +41,15 @@ export class AppComponent implements AfterViewInit {
   }
 
   openSettingsDialog() {
-    const dialogRef = this.dialog.open(SettingsDialogComponent);
-
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = 'settings-dialog-panel';
+    dialogConfig.minWidth = '300px';
+    dialogConfig.data = { zoomedIn: this.zoomedIn };
+    const dialogRef = this.dialog.open(SettingsDialogComponent, dialogConfig);
+    const zoomRef = dialogRef.componentInstance.zoom.subscribe(zoomed => {
+      console.log(zoomed);
+      this.zoomedIn = zoomed;
+    });
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
     });

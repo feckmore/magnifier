@@ -19,3 +19,7 @@ mat-icon {
   cursor: pointer;
   z-index: 2;
 }
+
+.zoomed-in {
+  object-fit: cover;
+}
