@@ -1,4 +1,4 @@
-# Scopefeed
+# ScopeFeed
 
 > The source code for https://scopefeed.com
 
