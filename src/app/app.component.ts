@@ -5,6 +5,8 @@ import {
   ElementRef,
   AfterViewInit
 } from '@angular/core';
+import { MatDialog } from '@angular/material';
+import { SettingsDialogComponent } from './settings-dialog/settings-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +22,8 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('video', { static: false })
   public video: ElementRef;
 
+  constructor(private dialog: MatDialog) {}
+
   public ngAfterViewInit() {
     if (
       navigator.mediaDevices &&
@@ -32,5 +36,13 @@ export class AppComponent implements AfterViewInit {
         };
       });
     }
+  }
+
+  openSettingsDialog() {
+    const dialogRef = this.dialog.open(SettingsDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+    });
   }
 }

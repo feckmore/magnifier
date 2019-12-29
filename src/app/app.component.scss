@@ -1,5 +1,4 @@
 video {
-  background: rgb(23, 22, 22);
   left: 0;
   top: 0;
   height: 100vh;
@@ -9,4 +8,14 @@ video {
   justify-content: center;
   position: fixed;
   z-index: 1;
+}
+
+mat-icon {
+  margin: 2rem;
+  position: absolute;
+  color: white;
+  opacity: 0.2;
+  font-size: 3rem;
+  cursor: pointer;
+  z-index: 2;
 }
