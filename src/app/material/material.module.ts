@@ -45,7 +45,8 @@ const material = [
   MatSnackBarModule,
   MatDialogModule,
   MatSlideToggleModule,
-  MatSliderModule
+  MatSliderModule,
+  MatRadioModule
 ];
 
 @NgModule({

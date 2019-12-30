@@ -1,33 +1,54 @@
 <h2 mat-dialog-title>Settings</h2>
-<mat-card>
-  <mat-card-header>
-    <mat-icon mat-card-avatar>zoom_in</mat-icon>
-    <mat-card-title>Zoom In</mat-card-title>
-    <!-- <mat-card-subtitle></mat-card-subtitle> -->
-  </mat-card-header>
-  <mat-card-content>
-    Toggle between filling the screen or showing the entire camera output.
-  </mat-card-content>
-  <mat-card-actions>
-    <mat-slide-toggle
-      color="primary"
-      [checked]="zoomedIn"
-      (change)="toggleZoom($event)"
-    >
-      Zoom
-    </mat-slide-toggle>
-    <br />
-    <mat-slider
-      color="primary"
-      [disabled]="!zoomedIn"
-      [value]="zoomLevel"
-      (change)="setZoomLevel($event)"
-      min="1"
-      max="5"
-      step="0.1"
-    ></mat-slider>
-  </mat-card-actions>
-</mat-card>
+
+<div mat-dialog-content>
+  <mat-card class="settings-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>switch_camera</mat-icon>
+      <mat-card-title>Select Feed</mat-card-title>
+      <mat-card-subtitle>Select the video feed to display</mat-card-subtitle>
+    </mat-card-header>
+    <mat-radio-group [value]="deviceId" (change)="changeDevice($event)">
+      <div class="device" *ngFor="let device of devices">
+        <mat-radio-button [value]="device.deviceId">
+          {{ parseLabel(device.label) }}
+        </mat-radio-button>
+      </div>
+    </mat-radio-group>
+  </mat-card>
+  <mat-card>
+    <mat-card-header>
+      <mat-icon mat-card-avatar>zoom_in</mat-icon>
+      <mat-card-title>Zoom In</mat-card-title>
+      <mat-card-subtitle
+        >Toggle between filling the screen or showing the entire camera
+        output</mat-card-subtitle
+      >
+    </mat-card-header>
+    <mat-card-content>
+      Toggle between filling the screen or showing the entire camera output.
+    </mat-card-content>
+    <mat-card-actions>
+      <mat-slide-toggle
+        color="primary"
+        [checked]="zoomedIn"
+        (change)="toggleZoom($event)"
+      >
+        Zoom
+      </mat-slide-toggle>
+      <br />
+      <mat-slider
+        color="primary"
+        [disabled]="!zoomedIn"
+        [value]="zoomLevel"
+        (change)="setZoomLevel($event)"
+        min="1"
+        max="5"
+        step="0.1"
+      ></mat-slider>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
 <mat-dialog-actions>
   <button mat-raised-button mat-dialog-close>Close</button>
 </mat-dialog-actions>

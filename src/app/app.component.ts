@@ -1,10 +1,4 @@
-import {
-  Component,
-  ViewChild,
-  OnInit,
-  ElementRef,
-  AfterViewInit
-} from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { SettingsDialogComponent } from './settings-dialog/settings-dialog.component';
 
@@ -14,14 +8,11 @@ import { SettingsDialogComponent } from './settings-dialog/settings-dialog.compo
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements AfterViewInit {
+  devices: MediaDeviceInfo[];
+  fullscreen: boolean;
+  deviceId: string;
   zoomedIn = true;
   zoomLevel = 1.0;
-  fullscreen: boolean;
-
-  constraints = {
-    audio: false,
-    video: true
-  };
 
   @ViewChild('wrapper', { static: false })
   public wrapper: ElementRef;
@@ -32,13 +23,33 @@ export class AppComponent implements AfterViewInit {
   constructor(private dialog: MatDialog) {}
 
   public ngAfterViewInit() {
-    if (
-      navigator.mediaDevices &&
-      navigator.mediaDevices.getUserMedia(this.constraints)
-    ) {
-      navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+    this.devices = new Array();
+
+    if (navigator.mediaDevices.enumerateDevices) {
+      navigator.mediaDevices.enumerateDevices().then(devices => {
+        devices.forEach(device => {
+          if (device.kind === 'videoinput') {
+            this.devices.push(device);
+          }
+        });
+
+        if (this.devices.length > 0) {
+          this.deviceId = this.devices[0].deviceId;
+          this.setDevice(this.deviceId);
+        }
+      });
+    }
+  }
+
+  setDevice(deviceId: string) {
+    const constraints = {
+      audio: false,
+      video: { deviceId: { exact: deviceId } }
+    };
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia(constraints).then(stream => {
         this.video.nativeElement.srcObject = stream;
-        this.video.nativeElement.onloadedmetadata = e => {
+        this.video.nativeElement.onloadedmetadata = () => {
           this.video.nativeElement.play();
         };
       });
@@ -88,7 +99,12 @@ export class AppComponent implements AfterViewInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'settings-dialog-panel';
     dialogConfig.minWidth = '30vw';
-    dialogConfig.data = { zoomedIn: this.zoomedIn, zoomLevel: this.zoomLevel };
+    dialogConfig.data = {
+      zoomedIn: this.zoomedIn,
+      zoomLevel: this.zoomLevel,
+      devices: this.devices,
+      deviceId: this.deviceId
+    };
     const dialogRef = this.dialog.open(SettingsDialogComponent, dialogConfig);
     dialogRef.componentInstance.zoom.subscribe(zoomedIn => {
       console.log('zoom: ' + zoomedIn);
@@ -100,6 +116,11 @@ export class AppComponent implements AfterViewInit {
     dialogRef.componentInstance.zoomLevelChange.subscribe(zoomLevel => {
       console.log('zoom level: ' + zoomLevel);
       this.zoomLevel = zoomLevel;
+    });
+    dialogRef.componentInstance.deviceChange.subscribe(deviceId => {
+      console.log('new device: ' + deviceId);
+      this.deviceId = deviceId;
+      this.setDevice(deviceId);
     });
   }
 }
