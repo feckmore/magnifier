@@ -26,6 +26,9 @@ export class SettingsDialogComponent implements OnInit {
   toggleZoom(event: MatSlideToggleChange) {
     this.zoomedIn = event.checked;
     this.zoom.emit(event.checked);
+    if (!event.checked) {
+      this.zoomLevel = 1.0;
+    }
   }
 
   setZoomLevel(event: MatSliderChange) {

@@ -16,11 +16,15 @@ import { SettingsDialogComponent } from './settings-dialog/settings-dialog.compo
 export class AppComponent implements AfterViewInit {
   zoomedIn = true;
   zoomLevel = 1.0;
+  fullscreen: boolean;
 
   constraints = {
     audio: false,
     video: true
   };
+
+  @ViewChild('wrapper', { static: false })
+  public wrapper: ElementRef;
 
   @ViewChild('video', { static: false })
   public video: ElementRef;
@@ -37,6 +41,45 @@ export class AppComponent implements AfterViewInit {
         this.video.nativeElement.onloadedmetadata = e => {
           this.video.nativeElement.play();
         };
+      });
+    }
+  }
+
+  toggleFullscreen(fullscreen: boolean) {
+    if (fullscreen) {
+      this.openFullscreen();
+    } else {
+      this.closeFullscreen();
+    }
+  }
+
+  openFullscreen() {
+    if (this.wrapper.nativeElement.requestFullscreen) {
+      this.wrapper.nativeElement.requestFullscreen().then(() => {
+        this.fullscreen = true;
+      });
+    } else if (this.wrapper.nativeElement.mozRequestFullScreen) {
+      /* Firefox */
+      this.wrapper.nativeElement.mozRequestFullScreen().then(() => {
+        this.fullscreen = true;
+      });
+    } else if (this.wrapper.nativeElement.webkitRequestFullscreen) {
+      /* Chrome, Safari and Opera */
+      this.wrapper.nativeElement.webkitRequestFullscreen().then(() => {
+        this.fullscreen = true;
+      });
+    } else if (this.wrapper.nativeElement.msRequestFullscreen) {
+      /* IE/Edge */
+      this.wrapper.nativeElement.msRequestFullscreen().then(() => {
+        this.fullscreen = true;
+      });
+    }
+  }
+
+  closeFullscreen() {
+    if (document.exitFullscreen) {
+      document.exitFullscreen().then(() => {
+        this.fullscreen = false;
       });
     }
   }

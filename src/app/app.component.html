@@ -1,13 +1,30 @@
-<video
-  #video
-  [class.zoomed-in]="zoomedIn === true"
-  [style.transform]="'scale(' + zoomLevel + ')'"
-></video>
-<mat-icon
-  (click)="openSettingsDialog()"
-  matTooltip="Open Settings"
-  matTooltipPosition="after"
-  matTooltipShowDelay="300"
->
-  settings_applications
-</mat-icon>
+<div #wrapper class="wrapper">
+  <video
+    #video
+    [class.zoomed-in]="zoomedIn === true"
+    [style.transform]="'scale(' + zoomLevel + ')'"
+  ></video>
+
+  <mat-icon
+    class="settings"
+    (click)="openSettingsDialog()"
+    matTooltip="Open Settings"
+    matTooltipPosition="after"
+    matTooltipShowDelay="300"
+  >
+    settings_applications
+  </mat-icon>
+
+  <mat-icon
+    *ngIf="!fullscreen"
+    class="fullscreen"
+    (click)="toggleFullscreen(true)"
+    >fullscreen</mat-icon
+  >
+  <mat-icon
+    *ngIf="fullscreen"
+    class="fullscreen"
+    (click)="toggleFullscreen(false)"
+    >fullscreen_exit</mat-icon
+  >
+</div>

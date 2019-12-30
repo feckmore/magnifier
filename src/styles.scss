@@ -11,4 +11,5 @@ body {
 }
 .settings-dialog-panel .mat-dialog-container {
   opacity: 0.75;
+  z-index: 2147483647;
 }
