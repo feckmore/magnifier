@@ -14,13 +14,15 @@ mat-icon {
   margin: 2rem;
   position: absolute;
   color: white;
-  opacity: 0.3;
+  text-shadow: 2px 2px #666666;
+  opacity: 0.4;
   font-size: 3rem;
   cursor: pointer;
   z-index: 2;
 
   &:hover {
     opacity: 0.8;
+    text-shadow: 2px 2px #8888dd;
   }
 }
 

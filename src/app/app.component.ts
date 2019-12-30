@@ -50,6 +50,9 @@ export class AppComponent implements AfterViewInit {
     dialogRef.componentInstance.zoom.subscribe(zoomedIn => {
       console.log('zoom: ' + zoomedIn);
       this.zoomedIn = zoomedIn;
+      if (!zoomedIn) {
+        this.zoomLevel = 1;
+      }
     });
     dialogRef.componentInstance.zoomLevelChange.subscribe(zoomLevel => {
       console.log('zoom level: ' + zoomLevel);
