@@ -4,22 +4,51 @@
     [class.zoomed-in]="zoomedIn === true"
     [style.transform]="'scale(' + zoomLevel + ')'"
   ></video>
+  <canvas #canvas width="1920" height="1280"></canvas>
+
+  <div class="captures">
+    <img
+      *ngFor="let capture of captures"
+      src="{{ capture }}"
+      (click)="selectedImage = capture"
+    />
+  </div>
+
+  <div
+    *ngIf="selectedImage"
+    class="selected-image"
+    (click)="selectedImage = ''"
+  >
+    <img src="{{ selectedImage }}" />
+  </div>
 
   <mat-icon
     class="settings"
     (click)="openSettingsDialog()"
     [class.hidden]="fullscreen === true"
     matTooltip="Open Settings"
-    matTooltipPosition="after"
-    matTooltipShowDelay="300"
+    matTooltipPosition="before"
+    matTooltipShowDelay="200"
   >
     settings_applications
   </mat-icon>
 
   <mat-icon
+    class="capture"
+    (click)="captureImage()"
+    matTooltip="Capture Image"
+    matTooltipPosition="before"
+    matTooltipShowDelay="200"
+    >photo_camera</mat-icon
+  >
+
+  <mat-icon
     *ngIf="!fullscreen"
     class="fullscreen"
     (click)="toggleFullscreen(true)"
+    matTooltip="Fullscreen"
+    matTooltipPosition="before"
+    matTooltipShowDelay="200"
     >fullscreen</mat-icon
   >
   <mat-icon

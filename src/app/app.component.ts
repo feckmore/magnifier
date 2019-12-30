@@ -8,11 +8,16 @@ import { SettingsDialogComponent } from './settings-dialog/settings-dialog.compo
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements AfterViewInit {
-  devices: MediaDeviceInfo[];
+  captures: Array<any>;
+  devices: Array<MediaDeviceInfo>;
   fullscreen: boolean;
   deviceId: string;
   zoomedIn = true;
   zoomLevel = 1.0;
+  selectedImage: any;
+
+  @ViewChild('canvas', { static: false })
+  public canvas: ElementRef;
 
   @ViewChild('wrapper', { static: false })
   public wrapper: ElementRef;
@@ -23,6 +28,7 @@ export class AppComponent implements AfterViewInit {
   constructor(private dialog: MatDialog) {}
 
   public ngAfterViewInit() {
+    this.captures = new Array();
     this.devices = new Array();
 
     if (navigator.mediaDevices.enumerateDevices) {
@@ -39,6 +45,14 @@ export class AppComponent implements AfterViewInit {
         }
       });
     }
+  }
+
+  captureImage() {
+    this.canvas.nativeElement
+      .getContext('2d')
+      .drawImage(this.video.nativeElement, 0, 0, 1920, 1280);
+    this.captures.push(this.canvas.nativeElement.toDataURL('image/jpeg', 0.2));
+    console.log(this.captures);
   }
 
   setDevice(deviceId: string) {
