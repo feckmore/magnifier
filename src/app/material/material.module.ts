@@ -25,9 +25,10 @@ import {
   MatNativeDateModule,
   MatTooltipModule,
   MatSnackBarModule,
-  MatDialogModule
+  MatDialogModule,
+  MatSlideToggleModule,
+  MatSliderModule
 } from '@angular/material';
-import { ReactiveFormsModule } from '@angular/forms';
 
 const material = [
   MatButtonModule,
@@ -42,7 +43,9 @@ const material = [
   MatRadioModule,
   MatTooltipModule,
   MatSnackBarModule,
-  MatDialogModule
+  MatDialogModule,
+  MatSlideToggleModule,
+  MatSliderModule
 ];
 
 @NgModule({

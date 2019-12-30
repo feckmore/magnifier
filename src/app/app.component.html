@@ -1,2 +1,9 @@
-<video #video [class.zoomed-in]="zoomedIn === 'true'"></video>
-<mat-icon (click)="openSettingsDialog()">settings_applications</mat-icon>
+<video #video [class.zoomed-in]="zoomedIn === true"></video>
+<mat-icon
+  (click)="openSettingsDialog()"
+  matTooltip="Open Settings"
+  matTooltipPosition="after"
+  matTooltipShowDelay="300"
+>
+  settings_applications
+</mat-icon>

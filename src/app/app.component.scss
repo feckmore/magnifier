@@ -14,10 +14,14 @@ mat-icon {
   margin: 2rem;
   position: absolute;
   color: white;
-  opacity: 0.2;
+  opacity: 0.3;
   font-size: 3rem;
   cursor: pointer;
   z-index: 2;
+
+  &:hover {
+    opacity: 0.8;
+  }
 }
 
 .zoomed-in {
