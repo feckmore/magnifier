@@ -8,6 +8,7 @@
   <mat-icon
     class="settings"
     (click)="openSettingsDialog()"
+    [class.hidden]="fullscreen === true"
     matTooltip="Open Settings"
     matTooltipPosition="after"
     matTooltipShowDelay="300"
