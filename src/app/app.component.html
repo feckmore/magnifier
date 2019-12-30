@@ -1,4 +1,8 @@
-<video #video [class.zoomed-in]="zoomedIn === true"></video>
+<video
+  #video
+  [class.zoomed-in]="zoomedIn === true"
+  [style.transform]="'scale(' + zoomLevel + ')'"
+></video>
 <mat-icon
   (click)="openSettingsDialog()"
   matTooltip="Open Settings"

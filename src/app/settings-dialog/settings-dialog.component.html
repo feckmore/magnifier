@@ -11,13 +11,20 @@
   <mat-card-actions>
     <mat-slide-toggle
       color="primary"
-      [checked]="data.zoomedIn"
+      [checked]="zoomedIn"
       (change)="toggleZoom($event)"
     >
       Zoom
     </mat-slide-toggle>
     <br />
-    <mat-slider color="primary" [disabled]="!zoomed"></mat-slider>
+    <mat-slider
+      color="primary"
+      [disabled]="!zoomedIn"
+      [value]="zoomLevel"
+      (change)="setZoomLevel($event)"
+      min="1"
+      max="5"
+    ></mat-slider>
   </mat-card-actions>
 </mat-card>
 <mat-dialog-actions>
