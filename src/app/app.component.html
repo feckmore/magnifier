@@ -55,14 +55,30 @@
     *ngIf="fullscreen"
     class="fullscreen"
     (click)="toggleFullscreen(false)"
+    matTooltip="Exit Fullscreen"
+    matTooltipPosition="before"
+    matTooltipShowDelay="200"
     >fullscreen_exit</mat-icon
   >
+
+  <mat-icon
+    *ngIf="selectedImage"
+    class="close-selected"
+    (click)="selectedImage = ''; selectedIndex = -1"
+    matTooltip="Close Image"
+    matTooltipPosition="before"
+    matTooltipShowDelay="200"
+    >close
+  </mat-icon>
 
   <mat-icon
     *ngIf="selectedImage"
     class="delete-selected"
     color="warn"
     (click)="deleteSelectedImage()"
+    matTooltip="Delete Image"
+    matTooltipPosition="before"
+    matTooltipShowDelay="200"
     >delete</mat-icon
   >
 </div>
