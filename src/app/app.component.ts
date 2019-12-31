@@ -15,6 +15,7 @@ export class AppComponent implements AfterViewInit {
   zoomedIn = true;
   zoomLevel = 1.0;
   selectedImage: any;
+  selectedIndex: number;
 
   @ViewChild('canvas', { static: false })
   public canvas: ElementRef;
@@ -53,6 +54,11 @@ export class AppComponent implements AfterViewInit {
       .drawImage(this.video.nativeElement, 0, 0, 1920, 1280);
     this.captures.push(this.canvas.nativeElement.toDataURL('image/jpeg', 0.2));
     console.log(this.captures);
+  }
+
+  deleteSelectedImage() {
+    this.captures.splice(this.selectedImage, 1);
+    this.selectedImage = '';
   }
 
   setDevice(deviceId: string) {

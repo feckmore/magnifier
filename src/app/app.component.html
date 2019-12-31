@@ -8,16 +8,16 @@
 
   <div class="captures">
     <img
-      *ngFor="let capture of captures"
+      *ngFor="let capture of captures; let i = index"
       src="{{ capture }}"
-      (click)="selectedImage = capture"
+      (click)="selectedImage = capture; selectedIndex = i"
     />
   </div>
 
   <div
     *ngIf="selectedImage"
     class="selected-image"
-    (click)="selectedImage = ''"
+    (click)="selectedImage = ''; selectedIndex = -1"
   >
     <img src="{{ selectedImage }}" />
   </div>
@@ -56,5 +56,13 @@
     class="fullscreen"
     (click)="toggleFullscreen(false)"
     >fullscreen_exit</mat-icon
+  >
+
+  <mat-icon
+    *ngIf="selectedImage"
+    class="delete-selected"
+    color="warn"
+    (click)="deleteSelectedImage()"
+    >delete</mat-icon
   >
 </div>
