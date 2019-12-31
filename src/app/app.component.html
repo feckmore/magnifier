@@ -20,10 +20,33 @@
     (click)="selectedImage = ''; selectedIndex = -1"
   >
     <img src="{{ selectedImage }}" />
+
+    <div class="selected-icons">
+      <mat-icon
+        *ngIf="selectedImage"
+        class="close-icon"
+        (click)="selectedImage = ''; selectedIndex = -1"
+        matTooltip="Close Image"
+        matTooltipPosition="before"
+        matTooltipShowDelay="200"
+        >close
+      </mat-icon>
+
+      <mat-icon
+        *ngIf="selectedImage"
+        class="delete-icon"
+        color="warn"
+        (click)="deleteSelectedImage()"
+        matTooltip="Delete Image"
+        matTooltipPosition="before"
+        matTooltipShowDelay="200"
+        >delete
+      </mat-icon>
+    </div>
   </div>
 
   <mat-icon
-    class="settings"
+    class="settings-icon"
     (click)="openSettingsDialog()"
     [class.hidden]="fullscreen === true"
     matTooltip="Open Settings"
@@ -34,7 +57,7 @@
   </mat-icon>
 
   <mat-icon
-    class="capture"
+    class="capture-icon"
     (click)="captureImage()"
     matTooltip="Capture Image"
     matTooltipPosition="before"
@@ -44,7 +67,7 @@
 
   <mat-icon
     *ngIf="!fullscreen"
-    class="fullscreen"
+    class="fullscreen-icon"
     (click)="toggleFullscreen(true)"
     matTooltip="Fullscreen"
     matTooltipPosition="before"
@@ -53,32 +76,11 @@
   >
   <mat-icon
     *ngIf="fullscreen"
-    class="fullscreen"
+    class="fullscreen-icon"
     (click)="toggleFullscreen(false)"
     matTooltip="Exit Fullscreen"
     matTooltipPosition="before"
     matTooltipShowDelay="200"
     >fullscreen_exit</mat-icon
-  >
-
-  <mat-icon
-    *ngIf="selectedImage"
-    class="close-selected"
-    (click)="selectedImage = ''; selectedIndex = -1"
-    matTooltip="Close Image"
-    matTooltipPosition="before"
-    matTooltipShowDelay="200"
-    >close
-  </mat-icon>
-
-  <mat-icon
-    *ngIf="selectedImage"
-    class="delete-selected"
-    color="warn"
-    (click)="deleteSelectedImage()"
-    matTooltip="Delete Image"
-    matTooltipPosition="before"
-    matTooltipShowDelay="200"
-    >delete</mat-icon
   >
 </div>
