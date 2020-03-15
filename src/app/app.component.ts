@@ -42,6 +42,14 @@ export class AppComponent implements AfterViewInit {
     console.log(this.captures);
   }
 
+  closeFullscreen() {
+    if (document.exitFullscreen) {
+      document.exitFullscreen().then(() => {
+        this.fullscreen = false;
+      });
+    }
+  }
+
   deleteSelectedImage() {
     this.captures.splice(this.selectedImage, 1);
     this.selectedImage = '';
@@ -65,29 +73,6 @@ export class AppComponent implements AfterViewInit {
     }
   }
 
-  setDevice(deviceId: string) {
-    const constraints = {
-      audio: false,
-      video: { deviceId: { exact: deviceId } }
-    };
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia(constraints).then(stream => {
-        this.video.nativeElement.srcObject = stream;
-        this.video.nativeElement.onloadedmetadata = () => {
-          this.video.nativeElement.play();
-        };
-      });
-    }
-  }
-
-  toggleFullscreen(fullscreen: boolean) {
-    if (fullscreen) {
-      this.openFullscreen();
-    } else {
-      this.closeFullscreen();
-    }
-  }
-
   openFullscreen() {
     if (this.wrapper.nativeElement.requestFullscreen) {
       this.wrapper.nativeElement.requestFullscreen().then(() => {
@@ -107,14 +92,6 @@ export class AppComponent implements AfterViewInit {
       /* IE/Edge */
       this.wrapper.nativeElement.msRequestFullscreen().then(() => {
         this.fullscreen = true;
-      });
-    }
-  }
-
-  closeFullscreen() {
-    if (document.exitFullscreen) {
-      document.exitFullscreen().then(() => {
-        this.fullscreen = false;
       });
     }
   }
@@ -156,6 +133,29 @@ export class AppComponent implements AfterViewInit {
     if (this.devices && this.devices.length > 0) {
       this.deviceId = this.devices[0].deviceId;
       this.setDevice(this.deviceId);
+    }
+  }
+
+  setDevice(deviceId: string) {
+    const constraints = {
+      audio: false,
+      video: { deviceId: { exact: deviceId } }
+    };
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia(constraints).then(stream => {
+        this.video.nativeElement.srcObject = stream;
+        this.video.nativeElement.onloadedmetadata = () => {
+          this.video.nativeElement.play();
+        };
+      });
+    }
+  }
+
+  toggleFullscreen(fullscreen: boolean) {
+    if (fullscreen) {
+      this.openFullscreen();
+    } else {
+      this.closeFullscreen();
     }
   }
 }
