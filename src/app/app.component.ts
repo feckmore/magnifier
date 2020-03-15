@@ -123,7 +123,7 @@ export class AppComponent implements AfterViewInit {
   setDevice(deviceId: string) {
     const constraints = {
       audio: false,
-      video: { deviceId: { exact: deviceId } }
+      video: { deviceId: { exact: deviceId }, width: 1920, height: 1080 }
     };
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices.getUserMedia(constraints).then(stream => {
