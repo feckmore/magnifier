@@ -30,22 +30,8 @@ export class AppComponent implements AfterViewInit {
 
   public ngAfterViewInit() {
     this.captures = new Array();
-    this.devices = new Array();
 
-    if (navigator.mediaDevices.enumerateDevices) {
-      navigator.mediaDevices.enumerateDevices().then(devices => {
-        devices.forEach(device => {
-          if (device.kind === 'videoinput') {
-            this.devices.push(device);
-          }
-        });
-
-        if (this.devices.length > 0) {
-          this.deviceId = this.devices[0].deviceId;
-          this.setDevice(this.deviceId);
-        }
-      });
-    }
+    this.getDevices();
   }
 
   captureImage() {
@@ -59,6 +45,24 @@ export class AppComponent implements AfterViewInit {
   deleteSelectedImage() {
     this.captures.splice(this.selectedImage, 1);
     this.selectedImage = '';
+  }
+
+  getDevices() {
+    this.devices = new Array();
+
+    if (navigator.mediaDevices.enumerateDevices) {
+      navigator.mediaDevices.enumerateDevices().then(devices => {
+        devices.forEach(device => {
+          if (device.kind === 'videoinput') {
+            this.devices.push(device);
+          }
+        });
+
+        if (devices.length > 0 && (!this.deviceId || this.deviceId === '')) {
+          this.setDefaultDevice();
+        }
+      });
+    }
   }
 
   setDevice(deviceId: string) {
@@ -116,6 +120,8 @@ export class AppComponent implements AfterViewInit {
   }
 
   openSettingsDialog() {
+    this.getDevices();
+
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = 'settings-dialog-panel';
     dialogConfig.minWidth = '30vw';
@@ -142,5 +148,14 @@ export class AppComponent implements AfterViewInit {
       this.deviceId = deviceId;
       this.setDevice(deviceId);
     });
+  }
+
+  setDefaultDevice() {
+    // just sets to the first one in the list...
+    // TODO: instead save last selected camera
+    if (this.devices && this.devices.length > 0) {
+      this.deviceId = this.devices[0].deviceId;
+      this.setDevice(this.deviceId);
+    }
   }
 }
