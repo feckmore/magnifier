@@ -8,7 +8,6 @@ import { SettingsDialogComponent } from './settings-dialog/settings-dialog.compo
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements AfterViewInit {
-  captures: Array<any>;
   devices: Array<MediaDeviceInfo>;
   fullscreen: boolean;
   deviceId: string;
@@ -29,17 +28,7 @@ export class AppComponent implements AfterViewInit {
   constructor(private dialog: MatDialog) {}
 
   public ngAfterViewInit() {
-    this.captures = new Array();
-
     this.getDevices();
-  }
-
-  captureImage() {
-    this.canvas.nativeElement
-      .getContext('2d')
-      .drawImage(this.video.nativeElement, 0, 0, 1920, 1280);
-    this.captures.push(this.canvas.nativeElement.toDataURL('image/jpeg', 0.2));
-    console.log(this.captures);
   }
 
   closeFullscreen() {
@@ -48,11 +37,6 @@ export class AppComponent implements AfterViewInit {
         this.fullscreen = false;
       });
     }
-  }
-
-  deleteSelectedImage() {
-    this.captures.splice(this.selectedImage, 1);
-    this.selectedImage = '';
   }
 
   getDevices() {

@@ -6,14 +6,6 @@
   ></video>
   <canvas #canvas width="1920" height="1280"></canvas>
 
-  <div class="captures">
-    <img
-      *ngFor="let capture of captures; let i = index"
-      src="{{ capture }}"
-      (click)="selectedImage = capture; selectedIndex = i"
-    />
-  </div>
-
   <div
     *ngIf="selectedImage"
     class="selected-image"
@@ -55,15 +47,6 @@
   >
     settings_applications
   </mat-icon>
-
-  <mat-icon
-    class="capture-icon"
-    (click)="captureImage()"
-    matTooltip="Capture Image"
-    matTooltipPosition="before"
-    matTooltipShowDelay="200"
-    >photo_camera</mat-icon
-  >
 
   <mat-icon
     *ngIf="!fullscreen"
