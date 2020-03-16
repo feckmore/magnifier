@@ -20,11 +20,6 @@ video {
   z-index: 1;
 }
 
-canvas {
-  position: fixed;
-  visibility: hidden;
-}
-
 mat-icon {
   cursor: pointer;
   margin: 1.2rem;
@@ -42,43 +37,8 @@ mat-icon {
   }
 }
 
-// .capture-icon {
-//   opacity: 0.6;
-//   grid-row: 3;
-//   grid-column: 2;
-//   justify-self: center;
-//   align-self: end;
-// }
-
-.selected-image {
-  display: flex;
-  grid-row: 2;
-  grid-column: 2;
-  align-self: center;
-  z-index: 3;
-
-  img {
-    // height: 100%;
-    width: 100%;
-    border: 3px white solid;
-  }
-}
-
 .hidden {
   visibility: hidden;
-}
-
-.selected-icons {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transform: translate(-5rem);
-}
-
-.close-icon {
-}
-
-.delete-icon {
 }
 
 .settings-icon {

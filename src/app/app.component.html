@@ -4,38 +4,6 @@
     [style.object-fit]="zoomLevel > 1 ? 'cover' : 'contain'"
     [style.transform]="'scale(' + zoomLevel + ')'"
   ></video>
-  <canvas #canvas width="1920" height="1280"></canvas>
-
-  <div
-    *ngIf="selectedImage"
-    class="selected-image"
-    (click)="selectedImage = ''; selectedIndex = -1"
-  >
-    <img src="{{ selectedImage }}" />
-
-    <div class="selected-icons">
-      <mat-icon
-        *ngIf="selectedImage"
-        class="close-icon"
-        (click)="selectedImage = ''; selectedIndex = -1"
-        matTooltip="Close Image"
-        matTooltipPosition="before"
-        matTooltipShowDelay="200"
-        >close
-      </mat-icon>
-
-      <mat-icon
-        *ngIf="selectedImage"
-        class="delete-icon"
-        color="warn"
-        (click)="deleteSelectedImage()"
-        matTooltip="Delete Image"
-        matTooltipPosition="before"
-        matTooltipShowDelay="200"
-        >delete
-      </mat-icon>
-    </div>
-  </div>
 
   <mat-icon
     class="settings-icon"

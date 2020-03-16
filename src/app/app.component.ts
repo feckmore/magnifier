@@ -12,11 +12,6 @@ export class AppComponent implements AfterViewInit {
   fullscreen: boolean;
   deviceId: string;
   zoomLevel = 2.0;
-  selectedImage: any;
-  selectedIndex: number;
-
-  @ViewChild('canvas', { static: false })
-  public canvas: ElementRef;
 
   @ViewChild('wrapper', { static: false })
   public wrapper: ElementRef;
@@ -101,7 +96,13 @@ export class AppComponent implements AfterViewInit {
     // just sets to the first one in the list...
     // TODO: instead save last selected camera
     if (this.devices && this.devices.length > 0) {
-      this.deviceId = this.devices[0].deviceId;
+      let index = this.devices.length - 1;
+      this.devices.forEach((device, i) => {
+        if (device.label.toLowerCase().indexOf('back') >= 0) {
+          index = i;
+        }
+      });
+      this.deviceId = this.devices[index].deviceId;
       this.setDevice(this.deviceId);
     }
   }

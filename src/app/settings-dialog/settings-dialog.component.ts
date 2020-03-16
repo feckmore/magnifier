@@ -30,6 +30,9 @@ export class SettingsDialogComponent implements OnInit {
   }
 
   parseLabel(label: string): string {
-    return label.substr(0, label.indexOf('('));
+    if (label.indexOf('(') >= 0) {
+      return label.substr(0, label.indexOf('('));
+    }
+    return label;
   }
 }
