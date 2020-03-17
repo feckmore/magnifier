@@ -11,7 +11,7 @@ export class AppComponent implements AfterViewInit {
   devices: Array<MediaDeviceInfo>;
   fullscreen: boolean;
   deviceId: string;
-  zoomLevel = 2.0;
+  zoomLevel: number;
 
   @ViewChild('wrapper', { static: false })
   public wrapper: ElementRef;
@@ -22,7 +22,8 @@ export class AppComponent implements AfterViewInit {
   constructor(private dialog: MatDialog) {}
 
   public ngAfterViewInit() {
-    this.getDevices();
+    this.getSettings();
+    // this.getDevices();
   }
 
   closeFullscreen() {
@@ -33,7 +34,9 @@ export class AppComponent implements AfterViewInit {
     }
   }
 
-  getDevices() {
+  // getDevices looks for videoinput devices and adds them to the devices var.
+  // if the setDefault param is set to true, it will define and set a default device
+  getDevices(setDefault: boolean = false) {
     this.devices = new Array();
 
     if (navigator.mediaDevices.enumerateDevices) {
@@ -44,10 +47,42 @@ export class AppComponent implements AfterViewInit {
           }
         });
 
-        if (devices.length > 0 && (!this.deviceId || this.deviceId === '')) {
-          this.setDefaultDevice();
+        let index = this.devices.length - 1;
+        this.devices.forEach((device, i) => {
+          if (device.label.toLowerCase().indexOf('back') >= 0) {
+            index = i;
+          }
+        });
+
+        if (
+          setDefault &&
+          this.devices &&
+          this.devices.length > 0 &&
+          index >= 0
+        ) {
+          this.setDevice(this.devices[index].deviceId);
         }
       });
+    }
+  }
+
+  getSettings() {
+    const zoomLevel = parseInt(localStorage.getItem('zoomLevel'), 10);
+
+    if (!isNaN(zoomLevel) && zoomLevel > -1 && zoomLevel < 6) {
+      console.log(`localStorage zoomLevel: ${zoomLevel}`);
+      this.zoomLevel = zoomLevel;
+    } else {
+      this.zoomLevel = 2;
+      localStorage.setItem('zoomLevel', this.zoomLevel.toString());
+    }
+
+    const deviceId = localStorage.getItem('deviceId');
+    if (deviceId) {
+      console.log(`localStorage deviceId: ${deviceId}`);
+      this.setDevice(deviceId);
+    } else {
+      this.getDevices(true);
     }
   }
 
@@ -87,24 +122,8 @@ export class AppComponent implements AfterViewInit {
     const dialogRef = this.dialog.open(SettingsDialogComponent, dialogConfig);
     dialogRef.componentInstance.deviceChange.subscribe(deviceId => {
       console.log('new device: ' + deviceId);
-      this.deviceId = deviceId;
       this.setDevice(deviceId);
     });
-  }
-
-  setDefaultDevice() {
-    // just sets to the first one in the list...
-    // TODO: instead save last selected camera
-    if (this.devices && this.devices.length > 0) {
-      let index = this.devices.length - 1;
-      this.devices.forEach((device, i) => {
-        if (device.label.toLowerCase().indexOf('back') >= 0) {
-          index = i;
-        }
-      });
-      this.deviceId = this.devices[index].deviceId;
-      this.setDevice(this.deviceId);
-    }
   }
 
   setDevice(deviceId: string) {
@@ -112,6 +131,8 @@ export class AppComponent implements AfterViewInit {
       audio: false,
       video: { deviceId: { exact: deviceId }, width: 1920, height: 1080 }
     };
+    this.deviceId = deviceId;
+    localStorage.setItem('deviceId', deviceId);
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices.getUserMedia(constraints).then(stream => {
         this.video.nativeElement.srcObject = stream;
@@ -123,6 +144,7 @@ export class AppComponent implements AfterViewInit {
   }
 
   setZoomLevel(event: MatSliderChange) {
+    localStorage.setItem('zoomLevel', event.value.toString());
     this.zoomLevel = event.value;
   }
 
