@@ -29,9 +29,15 @@ export class AppComponent implements AfterViewInit {
   closeFullscreen() {
     if (document.exitFullscreen) {
       document.exitFullscreen().then(() => {
-        this.fullscreen = false;
+        console.log('exiting fullscreen');
       });
+    } else {
+      console.log('not in fullscreen');
     }
+    // in either case, assume no longer in fullscreen
+    // on mobile, if in fullscreen then, switch between apps,
+    // it will think it's still in full screen
+    this.fullscreen = false;
   }
 
   // getDevices looks for videoinput devices and adds them to the devices var.
