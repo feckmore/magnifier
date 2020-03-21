@@ -13,10 +13,10 @@ export class AppComponent implements AfterViewInit {
   deviceId: string;
   zoomLevel: number;
 
-  @ViewChild('wrapper', { static: false })
+  @ViewChild('wrapper')
   public wrapper: ElementRef;
 
-  @ViewChild('video', { static: false })
+  @ViewChild('video')
   public video: ElementRef;
 
   constructor(private dialog: MatDialog) {}
