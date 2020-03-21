@@ -1,5 +1,6 @@
 import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { MatDialog, MatDialogConfig, MatSliderChange } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatSliderChange } from '@angular/material/slider';
 import { SettingsDialogComponent } from './settings-dialog/settings-dialog.component';
 
 @Component({
