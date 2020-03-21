@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Output, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatRadioChange } from '@angular/material/radio';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { MatSliderChange } from '@angular/material/slider';
 
 @Component({
   selector: 'app-settings-dialog',

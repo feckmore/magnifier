@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "scopefeed": {
+    "magnifier": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/scopefeed",
+            "outputPath": "dist/magnifier",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -70,18 +70,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "scopefeed:build"
+            "browserTarget": "magnifier:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "scopefeed:build:production"
+              "browserTarget": "magnifier:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "scopefeed:build"
+            "browserTarget": "magnifier:build"
           }
         },
         "test": {
@@ -111,25 +111,23 @@
               "tsconfig.spec.json",
               "e2e/tsconfig.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "scopefeed:serve"
+            "devServerTarget": "magnifier:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "scopefeed:serve:production"
+              "devServerTarget": "magnifier:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "scopefeed"
+  "defaultProject": "magnifier"
 }
