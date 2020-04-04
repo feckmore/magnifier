@@ -3,6 +3,8 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSliderChange } from '@angular/material/slider';
 import { SettingsDialogComponent } from './settings-dialog/settings-dialog.component';
 
+const defaultZoomLevel = 3;
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,7 +14,7 @@ export class AppComponent implements AfterViewInit {
   devices: Array<MediaDeviceInfo>;
   fullscreen: boolean;
   deviceId: string;
-  zoomLevel: number;
+  zoomLevel: number = defaultZoomLevel;
 
   @ViewChild('wrapper')
   public wrapper: ElementRef;
@@ -80,7 +82,7 @@ export class AppComponent implements AfterViewInit {
       console.log(`localStorage zoomLevel: ${zoomLevel}`);
       this.zoomLevel = zoomLevel;
     } else {
-      this.zoomLevel = 2;
+      this.zoomLevel = defaultZoomLevel;
       localStorage.setItem('zoomLevel', this.zoomLevel.toString());
     }
 
@@ -136,7 +138,7 @@ export class AppComponent implements AfterViewInit {
   setDevice(deviceId: string) {
     const constraints = {
       audio: false,
-      video: { deviceId: { exact: deviceId }, width: 1920, height: 1080 }
+      video: { deviceId: { exact: deviceId }, width: 3840, height: 2160 }
     };
     this.deviceId = deviceId;
     localStorage.setItem('deviceId', deviceId);
