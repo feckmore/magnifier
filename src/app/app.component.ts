@@ -1,6 +1,10 @@
 import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSliderChange } from '@angular/material/slider';
+
+import { debounceTime } from 'rxjs/operators';
+import { fromEvent, Observable, Subscription } from 'rxjs';
+
 import { SettingsDialogComponent } from './settings-dialog/settings-dialog.component';
 
 const defaultZoomLevel = 3;
@@ -8,12 +12,15 @@ const defaultZoomLevel = 3;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements AfterViewInit {
+  deviceId: string;
   devices: Array<MediaDeviceInfo>;
   fullscreen: boolean;
-  deviceId: string;
+  resizeObservable$: Observable<Event>;
+  resizeSubscription$: Subscription;
+
   zoomLevel: number = defaultZoomLevel;
 
   @ViewChild('wrapper')
@@ -22,9 +29,11 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('video')
   public video: ElementRef;
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private elementRef: ElementRef) {}
 
   public ngAfterViewInit() {
+    this.setInnerHeight();
+    this.subscribeWindowResize();
     this.getSettings();
     // this.getDevices();
   }
@@ -49,8 +58,8 @@ export class AppComponent implements AfterViewInit {
     this.devices = new Array();
 
     if (navigator.mediaDevices.enumerateDevices) {
-      navigator.mediaDevices.enumerateDevices().then(devices => {
-        devices.forEach(device => {
+      navigator.mediaDevices.enumerateDevices().then((devices) => {
+        devices.forEach((device) => {
           if (device.kind === 'videoinput') {
             this.devices.push(device);
           }
@@ -126,10 +135,10 @@ export class AppComponent implements AfterViewInit {
     dialogConfig.minWidth = '30vw';
     dialogConfig.data = {
       devices: this.devices,
-      deviceId: this.deviceId
+      deviceId: this.deviceId,
     };
     const dialogRef = this.dialog.open(SettingsDialogComponent, dialogConfig);
-    dialogRef.componentInstance.deviceChange.subscribe(deviceId => {
+    dialogRef.componentInstance.deviceChange.subscribe((deviceId) => {
       console.log('new device: ' + deviceId);
       this.setDevice(deviceId);
     });
@@ -138,12 +147,12 @@ export class AppComponent implements AfterViewInit {
   setDevice(deviceId: string) {
     const constraints = {
       audio: false,
-      video: { deviceId: { exact: deviceId }, width: 3840, height: 2160 }
+      video: { deviceId: { exact: deviceId }, width: 3840, height: 2160 },
     };
     this.deviceId = deviceId;
     localStorage.setItem('deviceId', deviceId);
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia(constraints).then(stream => {
+      navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
         this.video.nativeElement.srcObject = stream;
         this.video.nativeElement.onloadedmetadata = () => {
           this.video.nativeElement.play();
@@ -152,9 +161,24 @@ export class AppComponent implements AfterViewInit {
     }
   }
 
+  setInnerHeight() {
+    const vh = window.innerHeight;
+    console.log('innerHeight: ', vh);
+    this.elementRef.nativeElement.style.setProperty('--inner-vh', `${vh}px`);
+  }
+
   setZoomLevel(event: MatSliderChange) {
     localStorage.setItem('zoomLevel', event.value.toString());
     this.zoomLevel = event.value;
+  }
+
+  subscribeWindowResize() {
+    this.resizeObservable$ = fromEvent(window, 'resize');
+    this.resizeSubscription$ = this.resizeObservable$
+      .pipe(debounceTime(250))
+      .subscribe((evt) => {
+        this.setInnerHeight();
+      });
   }
 
   toggleFullscreen(fullscreen: boolean) {
