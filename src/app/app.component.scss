@@ -1,11 +1,7 @@
-:root {
-  --inner-vh: 100vh;
-}
-
 .wrapper {
   height: 100vh; // fallback for browsers not supporting custom properties
   height: calc(
-    var(--inner-vh, 100vh)
+    var(--inner-vh, 1vh) * 100
   ); // to be reset in javascript to innerHeight
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;

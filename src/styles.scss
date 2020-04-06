@@ -1,4 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+  --inner-vh: 1vh;
+}
 
 html,
 body {
@@ -25,13 +28,15 @@ mat-slider.mat-slider {
 
   .mat-slider-wrapper {
     .mat-slider-track-wrapper {
-      transform: scaleY(5);
-      box-shadow: 0 0, 0 0 0.3em white;
+      transform: scaleY(4);
+      transform: scaleY(calc(var(--inner-vh, 1vh) * 2));
+      box-shadow: 0 0, 0 0 0.2em white;
     }
     .mat-slider-thumb-container {
       .mat-slider-thumb {
-        transform: scale(2.5);
-        box-shadow: 0 0, 0 0 0.4em white;
+        transform: scale(2);
+        transform: scale(calc(var(--inner-vh, 1vh) * 5));
+        box-shadow: 0 0, 0 0 0.2em white;
         background-color: #3f51b5;
       }
     }

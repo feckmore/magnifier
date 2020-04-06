@@ -162,8 +162,8 @@ export class AppComponent implements AfterViewInit {
   }
 
   setInnerHeight() {
-    const vh = window.innerHeight;
-    console.log('innerHeight: ', vh);
+    const vh = window.innerHeight * 0.01;
+    console.log('innerHeight: ', vh * 100);
     this.elementRef.nativeElement.style.setProperty('--inner-vh', `${vh}px`);
   }
 
